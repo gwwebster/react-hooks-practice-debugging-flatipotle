@@ -11,22 +11,21 @@ const DEFAULT_STATE = {
   sides: [],
 };
 
-function Form() {
+function Form({ onAddOrder }) {
   const [formState, setFormState] = useState(DEFAULT_STATE);
 
-  function handleSubmit() {
-    event.preventDefault();
-    props.addOrder(formState);
+  function handleSubmit(e) {
+    e.preventDefault();
+    onAddOrder(formState);
 
     setFormState({
       ...DEFAULT_STATE,
     });
-    event.target.reset();
   }
 
-  function handleChange() {
-    const itemType = event.target.name;
-    const item = event.target.value;
+  function handleChange(e) {
+    const itemType = e.target.name;
+    const item = e.target.value;
 
     if (formState[itemType].includes(item)) {
       setFormState({
@@ -43,7 +42,7 @@ function Form() {
 
   return (
     <div className="ui raised container segment">
-      <h1 className="ui block header">Order Form</h1>
+      <h1 className="ui block header">Order Form:</h1>
       <form className="ui form" id="order-form" onSubmit={handleSubmit}>
         <ProteinForm
           protein={formState.protein}
@@ -60,7 +59,10 @@ function Form() {
           handleOnChange={handleChange}
         />
 
-        <SideForm sides={formState.sides} handleOnChange={handleChange} />
+        <SideForm 
+          sides={formState.sides} 
+          handleOnChange={handleChange} 
+        />
 
         <br />
 
